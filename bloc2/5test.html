@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tema 5 - Logística i Audiovisuals UPC</title>
+
+    <style>
+        :root {
+            --paper-bg: #fdfcfa;
+            --ink-color: #111;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: "Calibri", Arial, sans-serif;
+            background-color: #555;
+            color: var(--ink-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Barra superior persistent */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 2px solid var(--border-color);
+            padding: 15px 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-container {
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .stat-badge.success {
+            color: #2e8b57;
+            border-color: #2e8b57;
+        }
+
+        .stat-badge.danger {
+            color: #d9381e;
+            border-color: #d9381e;
+        }
+
+        /* Contenedor de botones */
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-back {
+            background-color: #777;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #040000;
+        }
+
+        .btn-restart {
+            background-color: #fb9cad;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-restart:hover {
+            background-color: #d70000;
+        }
+
+        /* Contenedor principal */
+        .exam-container {
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            padding: 50px 75px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            height: 100px;
+            width: auto;
+            display: block;
+        }
+
+        .org-info {
+            font-size: 11px;
+            line-height: 1.3;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .exam-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .instructions {
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #666;
+            padding-bottom: 15px;
+        }
+
+        .instructions ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+
+        .question-block {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 1px;
+            padding: 2px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .option-letter-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            min-width: 28px;
+            height: 28px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            flex: 1;
+            padding-top: 3px;
+        }
+
+        /* Cercle imperfecte SVG */
+        .imperfect-circle {
+            position: absolute;
+            top: -4px;
+            left: -5px;
+            width: 38px;
+            height: 36px;
+            pointer-events: none;
+            display: none;
+            background: transparent !important;
+        }
+
+        .imperfect-circle path {
+            fill: none !important;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .option-item.selected-wrong .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-wrong .imperfect-circle path {
+            stroke: #d9381e;
+        }
+
+        .option-item.selected-correct .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-correct .imperfect-circle path {
+            stroke: #2e8b57;
+        }
+
+        /* Copyright */
+        .copyright {
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #eee;
+            font-size: 12px;
+            padding: 5px 20px 20px 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .sticky-header {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .stats-container {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .exam-container {
+                padding: 25px 20px;
+                margin-top: 10px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .org-info {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <div class="sticky-header">
+        <div class="stats-container">
+            <span class="stat-badge">
+                Total: <span id="count-total">0</span>
+            </span>
+            <span class="stat-badge success">
+                Encerts: <span id="count-correct">0</span>
+            </span>
+            <span class="stat-badge danger">
+                Fallades: <span id="count-wrong">0</span>
+            </span>
+        </div>
+
+        <div class="header-buttons">
+            <button class="btn-back" onclick="window.location.href='../index.html'">
+                ← Tornar a Apunts
+            </button>
+            <button class="btn-restart" onclick="confirmarReinicio()">
+                ↻ Reiniciar examen
+            </button>
+        </div>
+    </div>
+
+    <!-- EXAMEN -->
+    <div class="exam-container">
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="../img/logohorizontal.png" alt="Logo UPC" onerror="this.style.display='none'">
+            </div>
+            <div class="org-info">
+                Universitat Politècnica de Catalunya<br>
+                Preparació Oposicions Auxiliar de Serveis
+            </div>
+        </div>
+
+        <div class="exam-title">
+            TEST TEMA 5: LOGÍSTICA D'ESDEVENIMENTS I EQUIPAMENTS AUDIOVISUALS
+            <br><br>
+            QÜESTIONARI DE 25 PREGUNTES DE REPAS
+        </div>
+
+        <div class="instructions">
+            <strong>INSTRUCCIONS</strong>
+            <ul>
+                <li> Fes clic sobre l'opció que consideris correcta per a cada pregunta.</li>
+                <li> Cada resposta correcta suma 1 punt; la resposta incorrecta restarà 0.25 punts.</li>
+                <li> Pots canviar o desmarcar la teva resposta fent-hi clic de nou.</li>
+            </ul>
+        </div>
+
+        <div id="quiz-container">
+            <!-- S'omplirà dinàmicament des de JS -->
+        </div>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="copyright">
+        © 2026 OpoUPC | Creat per JOMP
+    </div>
+
+    <!-- BANC DE PREGUNTES I LÒGICA DE L'EXAMEN -->
+    <script>
+        const EXAM_KEY = 'test_upc_tema5';
+
+        // BANC DE 25 PREGUNTES DE TEST DEL TEMA 5
+        const preguntesObligatories = [
+            {
+                id: "t5_q1",
+                pregunta: "Quina és la connexió estàndard digital emprada actualment per transmetre vídeo i àudio simultàniament a les aules de la UPC?",
+                opcions: [
+                    { text: "El cable HDMI (High-Definition Multimedia Interface).", correcte: true },
+                    { text: "El cable coaxial analògic de televisió.", correcte: false },
+                    { text: "El cable telefònic RJ11 de 4 fils.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q2",
+                pregunta: "Quina acció s'ha de dur a terme en primer lloc si un projector mostra la imatge correctament d'un ordinador però no emet so per altaveus?",
+                opcions: [
+                    { text: "Comprovar la selecció de la sortida d'àudio al sistema operatiu de l'ordinador i el volum del sistema de sala.", correcte: true },
+                    { text: "Canviar immediatament la làmpada del projector de sostre.", correcte: false },
+                    { text: "Desendollar tot el sistema elèctric de l'edifici.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q3",
+                pregunta: "Quin ordre lògic s'aconsella seguir per encendre un equipament audiovisual complex en un saló d'actes?",
+                opcions: [
+                    { text: "1r Fonts de senyal (ordinador) ➔ 2n Selector/Taula ➔ 3r Sistema de projecció ➔ 4t Amplificador de so.", correcte: true },
+                    { text: "Primer apagar els llums i després connectar els cables de corrent aleatòriament.", correcte: false },
+                    { text: "Engegar directament l'altaveu principal sense cap font de senyal activa.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q4",
+                pregunta: "Com s'organitzen generalment els espais principals en un acte institucional universitari (com una investidura o inauguració)?",
+                opcions: [
+                    { text: "Taula de presidència (Rector/a, autoritats), faristol per a oradors, zona de convidats i públic.", correcte: true },
+                    { text: "Col·locació lliure i aleatòria de cadires sense cap taula d'autoritats.", correcte: false },
+                    { text: "Zona exclusiva per a estudiants a la primera fila central davant del faristol.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q5",
+                pregunta: "Quina acció s'ha de realitzar en finalitzar una jornada acadèmica o esdeveniment a una aula magna o sala d'actes?",
+                opcions: [
+                    { text: "Apagar sistemes de projecció, recollir micròfons sense fil per a la recàrrega, tancar racks i assegurar la sala.", correcte: true },
+                    { text: "Deixar tots els equips encesos a màxima potència fins al dia següent.", correcte: false },
+                    { text: "Desmuntar físicament els altaveus de la paret i guardar-los a la consergeria.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q6",
+                pregunta: "Quina característica té el senyal d'un cable VGA combinat amb un jack de 3.5mm en comparació amb l'HDMI?",
+                opcions: [
+                    { text: "El VGA transmet exclusivament vídeo analògic i requereix el cable jack independent per transmetre l'àudio.", correcte: true },
+                    { text: "El VGA transmet vídeo en 4K amb fibra òptica integrada d'alta velocitat.", correcte: false },
+                    { text: "El VGA transporta tant el vídeo com 16 canals d'àudio digital sense cables addicionals.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q7",
+                pregunta: "Què provoca normalment el fenomen acústic conegut com a acoblament o 'efecte Larsen' (pitid agut) en un sistema de megafonia?",
+                opcions: [
+                    { text: "Que el micròfon està massa a prop o orientat directament cap als altaveus.", correcte: true },
+                    { text: "Que el projector té la làmpada brutes de pols.", correcte: false },
+                    { text: "Que falta connexió a internet per cable Ethernet.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q8",
+                pregunta: "Quina és una tasca prèvia de control (Check-list) que correspon a l'Auxiliar de Serveis en una aula docent?",
+                opcions: [
+                    { text: "Comprovar l'estat del projector, ordinador, comandaments, retoladors i neteja general de l'espai.", correcte: true },
+                    { text: "Imprimir els exàmens finals de totes les assignatures del grau.", correcte: false },
+                    { text: "Realitzar la classe magistral en absència del professor titular.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q9",
+                pregunta: "Què s'ha de fer si en connectar un ordinador portàtil al sistema de projecció d'una aula l'imatge no apareix a la pantalla?",
+                opcions: [
+                    { text: "Comprovar la selecció de l'entrada (Input) al botonera/comandament i assegurar la duplicació de pantalles (Win+P).", correcte: true },
+                    { text: "Formatificar el disc dur del portàtil de l'alumne.", correcte: false },
+                    { text: "Tallar el subministrament elèctric general de l'edifici.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q10",
+                pregunta: "Quina importància té la col·locació de banderes oficials (UPC, Catalunya, Espanya) en un acte institucional?",
+                opcions: [
+                    { text: "S'han de situar seguint estrictament les normes de protocol i precedència institucional establertes.", correcte: true },
+                    { text: "Es poden col·locar de qualsevol manera decorativa sense ordre establert.", correcte: false },
+                    { text: "No s'utilitzen mai banderes en cap acte organitzat per una universitat.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q11",
+                pregunta: "Quina funció compleix un comandament o botonera tàctil de control de sala (tipus Extron o Crestron) a les aules de la UPC?",
+                opcions: [
+                    { text: "Gestionar l'encesa/apagada de projectors, pujada/baixada de pantalles, selecció de fonts i volum general de l'aula.", correcte: true },
+                    { text: "Servir de reproductor de videojocs per als estudiants durant els descansos.", correcte: false },
+                    { text: "Controlar la temperatura de la calefacció de la ciutat de Barcelona.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q12",
+                pregunta: "Com ha de gestionar l'Auxiliar de Serveis el préstec de material audiovisual (passadors de diapositives, micròfons, portàtils)?",
+                opcions: [
+                    { text: "Mitjançant el registre de préstecs de la consergeria, anotant dades d'identificació i controlant la devolució.", correcte: true },
+                    { text: "Lliurant el material a qualsevol persona que ho demani de paraula sense apuntar res.", correcte: false },
+                    { text: "Regalant els dispositius als primers assistents que arribin a la consergeria.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q13",
+                pregunta: "Quin tipus de micròfon s'utilitza habitualment en una taula de presidència per a conferències fixes de curta distància?",
+                opcions: [
+                    { text: "Micròfons de sobretaula de tipus 'coll de cigne'.", correcte: true },
+                    { text: "Micròfons de mà dinàmics d'alta potència per a concerts de rock.", correcte: false },
+                    { text: "Megàfons manuals de sirena.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q14",
+                pregunta: "Quina acció preventiva s'ha de tenir cura amb les làmpades dels projectors tradicionals en apagar-los?",
+                opcions: [
+                    { text: "Permetre que el ventilador realitza el cicle de refredament complet abans de desendollar el corrent elèctric.", correcte: true },
+                    { text: "Forçar l'apagada immediata tirant del cable de corrent principal de cop.", correcte: false },
+                    { text: "Rentejar la làmpada amb aigua calenta immediatament després d'apagar.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q15",
+                pregunta: "Quina és la finalitat d'una prova prèvia o 'rehearsal' (assaig) tècnic abans d'un acte institucional important?",
+                opcions: [
+                    { text: "Verificar el funcionament de la projecció, presentacions, connexions de streaming i nivells de so amb els ponents.", correcte: true },
+                    { text: "Comprovar si el càtering té prou menjar per a tot el personal de neteja.", correcte: false },
+                    { text: "Fer temps perquè els convidats arribin tard sense que es note.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q16",
+                pregunta: "Què s'ha de comprovar habitualment en un micròfon sense fil si no emet so quan el ponent parla?",
+                opcions: [
+                    { text: "Que l'interruptor del micròfon estigui en posició 'ON', no estigui en silenci (Mute) i l'estat de les piles/bateria.", correcte: true },
+                    { text: "Que estigui connectat amb un cable HDMI de 10 metres al projector.", correcte: false },
+                    { text: "Que la resolució de pantalla del ordinador estigui a 1080p.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q17",
+                pregunta: "Quina és una exigència clau pel que fa a l'accessibilitat i el mobiliari en la preparació d'una sala d'actes?",
+                opcions: [
+                    { text: "Garantir espais reservats per a persones amb mobilitat reduïda (cadires de rodes) i rampes d'accés a l'escenari.", correcte: true },
+                    { text: "Bloquejar totes les portes d'emergència amb cadires extres per encabir més públic.", correcte: false },
+                    { text: "Deixar els passadissos centrals plens de caixes d'equips audiovisuals.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q18",
+                pregunta: "Com s'anomena la clau o dispositiu físic que s'utilitza sovint per canviar les diapositives d'una presentació a distància?",
+                opcions: [
+                    { text: "Passador de diapositives o 'presenter' sense fil.", correcte: true },
+                    { text: "Controlador lògic programable industrial.", correcte: false },
+                    { text: "Router wifi d'alta potència.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q19",
+                pregunta: "Quina actuació ha de fer l'Auxiliar de Serveis davant d'una avaria audiovisual persistent que no pot resoldre per si mateix a l'aula?",
+                opcions: [
+                    { text: "Obrir un tiquet d'incidència al CAU tècnic i informar l'usuari/professor de les alternatives disponibles.", correcte: true },
+                    { text: "Desmuntar el projector amb tornavís i intentar arreglar la placa base.", correcte: false },
+                    { text: "Cancelar totes les classes de la facultat de forma permanent.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q20",
+                pregunta: "Quina importància té la senyalització i la cartelleria durant la celebració d'un congrés o acte a la universitat?",
+                opcions: [
+                    { text: "Guiar correctament els assistents cap a les sales, lavabos, secretaria i sortides d'emergència.", correcte: true },
+                    { text: "Ocupar tot l'espai visual de les parets per evitar que es vegin les finestres.", correcte: false },
+                    { text: "Substituir completament la presència del personal de consergeria.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q21",
+                pregunta: "Què és una càmera PTZ (Pan-Tilt-Zoom) utilitzada habitualment en aules híbrides de la UPC?",
+                opcions: [
+                    { text: "Una càmera robòtica controlada remotament que permet moure's, inclinar-se i fer zoom per seguir el ponent o l'aula.", correcte: true },
+                    { text: "Una càmera de fotos analògica de carret antic per a revelat químic.", correcte: false },
+                    { text: "Un projector de diapositives de carrusel tradicional.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q22",
+                pregunta: "Per a què serveixen els faldons o cortinatges col·locats a les taules de presidència en actes solemnes?",
+                opcions: [
+                    { text: "Per donar una imatge estètica, solemne i uniforme ocultant el cablejat inferior i les cames de la taula.", correcte: true },
+                    { text: "Per mantenir escalfada la taula durant l'hivern.", correcte: false },
+                    { text: "Per servir de catifa d'emergència en cas d'evacuació.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q23",
+                pregunta: "Quina precaució cal tenir amb els cables de connexió audiovisual (HDMI, corrent) que travessen zones de pas de persones?",
+                opcions: [
+                    { text: "Protegir-los amb passacables de sòl o fixar-los correctament per evitar ensopegades i caigudes del públic.", correcte: true },
+                    { text: "Deixar-los estirats sense subjectar perquè es vegin bé.", correcte: false },
+                    { text: "Tallar els extrems sobrants amb estisores sense desconnectar.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q24",
+                pregunta: "Quin és el propòsit d'oferir aigua als ponents o membres de la taula presidencial durant un acte llarg?",
+                opcions: [
+                    { text: "Assegurar el benestar dels oradors atès l'esforç vocal prolongat durant les intervencions.", correcte: true },
+                    { text: "Complir una norma de decoració de taules sense utilitat pràctica.", correcte: false },
+                    { text: "Permetre que puguin netejar-se les mans amb aigua mineral.", correcte: false }
+                ]
+            },
+            {
+                id: "t5_q25",
+                pregunta: "Com col·labora l'equip d'Auxiliars de Serveis amb el servei de neteja i manteniment després d'un gran esdeveniment institucional?",
+                opcions: [
+                    { text: "Recollint restes de papereria, ordenant el mobiliari de la sala i notificant qualsevol desperfecte observat.", correcte: true },
+                    { text: "Fregant personalment tot el paviment de marbre del campus amb lleixiu.", correcte: false },
+                    { text: "Llençant tot el mobiliari nou al contenidor de rebuig.", correcte: false }
+                ]
+            }
+        ];
+
+        let encerts = 0;
+        let fallades = 0;
+        let totalPreguntes = 0;
+
+        function guardarEstatExamen() {
+            const estatPreguntes = {};
+            document.querySelectorAll('.question-block').forEach((bloc, index) => {
+                const items = bloc.querySelectorAll('.option-item');
+                items.forEach((item, optIndex) => {
+                    if (item.classList.contains('selected-correct')) {
+                        estatPreguntes[index] = { type: 'correct', optIndex };
+                    } else if (item.classList.contains('selected-wrong')) {
+                        estatPreguntes[index] = { type: 'wrong', optIndex };
+                    }
+                });
+            });
+
+            const guardatDetallat = {
+                estatPreguntes,
+                encerts,
+                fallades
+            };
+            localStorage.setItem(`detalls_${EXAM_KEY}`, JSON.stringify(guardatDetallat));
+        }
+
+        function actualitzarComptadors() {
+            document.getElementById('count-total').textContent = totalPreguntes;
+            document.getElementById('count-correct').textContent = encerts;
+            document.getElementById('count-wrong').textContent = fallades;
+
+            const respostesFetes = document.querySelectorAll('.question-block.responuda').length;
+            if (totalPreguntes > 0) {
+                let progressPercent = Math.round((respostesFetes / totalPreguntes) * 100);
+                let finalitzat = (respostesFetes === totalPreguntes);
+                if (progressPercent > 99 && !finalitzat) progressPercent = 99;
+
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                examResults[EXAM_KEY] = {
+                    progress: progressPercent,
+                    fallos: fallades,
+                    aciertos: encerts,
+                    total: totalPreguntes,
+                    passed: finalitzat ? (fallades <= 5) : false
+                };
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                
+                guardarEstatExamen();
+            }
+        }
+
+        function carregarExamen() {
+            encerts = 0;
+            fallades = 0;
+
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            let preguntesBarrejades = barrejarArray(preguntesObligatories);
+            totalPreguntes = preguntesBarrejades.length;
+
+            let htmlTotal = '';
+
+            preguntesBarrejades.forEach((q, indexReal) => {
+                htmlTotal += generarHTMLPregunta(q, indexReal + 1, 'obl');
+            });
+
+            container.innerHTML = htmlTotal;
+            restaurarEstatExamen();
+            actualitzarComptadors();
+            activarListeners();
+        }
+
+        function restaurarEstatExamen() {
+            const guardatDetallat = JSON.parse(localStorage.getItem(`detalls_${EXAM_KEY}`) || 'null');
+            if (!guardatDetallat) return;
+
+            encerts = guardatDetallat.encerts || 0;
+            fallades = guardatDetallat.fallades || 0;
+
+            const blocs = document.querySelectorAll('.question-block');
+            const estat = guardatDetallat.estatPreguntes || {};
+
+            Object.keys(estat).forEach(blocIdx => {
+                const bloc = blocs[blocIdx];
+                if (!bloc) return;
+                const dades = estat[blocIdx];
+                const items = bloc.querySelectorAll('.option-item');
+                const itemDesti = items[dades.optIndex];
+
+                if (itemDesti) {
+                    bloc.classList.add('responuda');
+                    if (dades.type === 'correct') {
+                        itemDesti.classList.add('selected-correct');
+                    } else if (dades.type === 'wrong') {
+                        itemDesti.classList.add('selected-wrong');
+                    }
+                }
+            });
+        }
+
+        function barrejarArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generarHTMLPregunta(q, numeroVisual, tipus) {
+            let opcionsBarrejades = barrejarArray(q.opcions);
+            let lletres = ['a', 'b', 'c', 'd'];
+            let htmlOpcions = '';
+
+            opcionsBarrejades.forEach((op, i) => {
+                let lletraAssignada = lletres[i];
+                let esCorrectaAttr = op.correcte ? 'true' : 'false';
+
+                htmlOpcions += `
+                    <li
+                        class="option-item"
+                        data-correcte="${esCorrectaAttr}"
+                    >
+                        <div class="option-letter-wrapper">
+                            <span class="option-letter">
+                                ${lletraAssignada})
+                            </span>
+                            <svg
+                                class="imperfect-circle"
+                                viewBox="0 0 50 40"
+                                preserveAspectRatio="none"
+                            >
+                                <path d="
+                                    M 6,6
+                                    Q 25,2 44,8
+                                    Q 48,20 42,34
+                                    Q 25,38 5,32
+                                    Q 2,18 6,6 Z
+                                "></path>
+                            </svg>
+                        </div>
+                        <span class="option-text">
+                            ${op.text}
+                        </span>
+                    </li>
+                `;
+            });
+
+            return `
+                <div
+                    class="question-block"
+                    data-tipus="${tipus}"
+                >
+                    <div class="question-text">
+                        ${numeroVisual}. ${q.pregunta}
+                    </div>
+                    <ul class="options-list">
+                        ${htmlOpcions}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function activarListeners() {
+            const blocsPreguntes = document.querySelectorAll('.question-block');
+
+            blocsPreguntes.forEach(bloc => {
+                const items = bloc.querySelectorAll('.option-item');
+
+                items.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const esCorrecta = this.getAttribute('data-correcte') === 'true';
+                        const yaEstabaSeleccionada = this.classList.contains('selected-correct') || this.classList.contains('selected-wrong');
+
+                        if (yaEstabaSeleccionada) {
+                            if (this.classList.contains('selected-correct')) {
+                                encerts--;
+                            } else if (this.classList.contains('selected-wrong')) {
+                                fallades--;
+                            }
+                            this.classList.remove('selected-correct', 'selected-wrong');
+                            
+                            const quedaAlguna = Array.from(items).some(opt => opt.classList.contains('selected-correct') || opt.classList.contains('selected-wrong'));
+                            if (!quedaAlguna) {
+                                bloc.classList.remove('responuda');
+                            }
+                            actualitzarComptadors();
+                            return;
+                        }
+
+                        items.forEach(opt => {
+                            if (opt.classList.contains('selected-correct')) {
+                                encerts--;
+                                opt.classList.remove('selected-correct');
+                            }
+                            if (opt.classList.contains('selected-wrong')) {
+                                fallades--;
+                                opt.classList.remove('selected-wrong');
+                            }
+                        });
+
+                        if (esCorrecta) {
+                            this.classList.add('selected-correct');
+                            encerts++;
+                        } else {
+                            this.classList.add('selected-wrong');
+                            fallades++;
+                        }
+
+                        bloc.classList.add('responuda');
+                        actualitzarComptadors();
+                    });
+                });
+            });
+        }
+
+        function confirmarReinicio() {
+            const confirmar = confirm(
+                "Estàs segur que vols reiniciar aquest examen de test?\n\n" +
+                "Es perdran les teves respostes i les opcions es tornaran a barrejar."
+            );
+
+            if (confirmar) {
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                delete examResults[EXAM_KEY];
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                localStorage.removeItem(`detalls_${EXAM_KEY}`);
+
+                carregarExamen();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        window.onload = carregarExamen;
+    </script>
+</body>
+
+</html>

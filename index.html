@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TESTS OPO UPC | Auxiliar de Serveis (67 Places)</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Global Styles & UPC Gradient Palette */
+    :root {
+      --primary-gradient: linear-gradient(135deg, #0052d4 0%, #4364f7 50%, #6fb1fc 100%);
+      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #003366 100%);
+      --card-bg: #ffffff;
+      --card-hover-border: #4364f7;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --bg-color: #f8fafc;
+      --accent-cyan: #00d2ff;
+      --accent-blue: #0052d4;
+      --border-color: #e2e8f0;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 10px 25px -5px rgba(0, 82, 212, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--header-bg);
+      color: #ffffff;
+      padding: 45px 20px 50px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 210, 255, 0.12) 0%, rgba(255, 255, 255, 0) 60%);
+      pointer-events: none;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #7dd3fc;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      color: #ffffff; 
+      background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 680px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    .call-info-bar {
+      max-width: 1100px;
+      margin: -25px auto 30px auto;
+      background: #ffffff;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(67, 100, 247, 0.15);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .info-item i {
+      color: var(--accent-blue);
+      font-size: 1.2rem;
+    }
+
+    .info-item span {
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-left: 3px;
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px 60px 20px;
+      flex-grow: 1;
+    }
+
+    .section-title {
+      margin: 40px 0 20px 0;
+    }
+
+    .section-title h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title hr {
+      border: none;
+      height: 3px;
+      background: linear-gradient(90deg, #0052d4, #00d2ff, transparent);
+      margin-top: 8px;
+      border-radius: 2px;
+    }
+
+    .bloc-container {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .bloc-container[open] {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(67, 100, 247, 0.3);
+    }
+
+    summary {
+      padding: 18px 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      cursor: pointer;
+      background: #ffffff;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: var(--accent-blue);
+      transition: transform 0.3s ease;
+    }
+
+    .bloc-container[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    summary:hover {
+      background: #f1f5f9;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 18px;
+      padding: 20px 24px 24px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .test-card {
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .test-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 10px 20px rgba(67, 100, 247, 0.1);
+    }
+
+    .test-card p {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .test-card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    /* Modificación de Badges y Estados */
+    .test-status {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #f1f5f9;
+      color: #64748b;
+      margin-bottom: 16px;
+      width: fit-content;
+      border: 1px solid transparent;
+    }
+
+    .test-status.status-passed {
+      background: #dcfce7 !important;
+      color: #15803d !important;
+      border-color: #86efac !important;
+    }
+
+    .test-status.status-failed {
+      background: #fee2e2 !important;
+      color: #b91c1c !important;
+      border-color: #fca5a5 !important;
+    }
+
+    .test-status.status-progress {
+      background: #fef3c7 !important;
+      color: #d97706 !important;
+      border-color: #fcd34d !important;
+    }
+
+    .card-passed {
+      border-left: 4px solid #22c55e !important;
+    }
+
+    .card-failed {
+      border-left: 4px solid #ef4444 !important;
+    }
+
+    .card-progress {
+      border-left: 4px solid #f59e0b !important;
+    }
+
+    .buttons-container {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .btn-apunts {
+      flex: 1;
+      text-align: center;
+      background: #f1f5f9;
+      color: #334155;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-apunts:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .test-card a:not(.btn-apunts) {
+      flex: 1.2;
+      text-align: center;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(67, 100, 247, 0.2);
+    }
+
+    .test-card a:not(.btn-apunts):hover {
+      opacity: 0.92;
+      box-shadow: 0 6px 14px rgba(67, 100, 247, 0.3);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+
+    .badge-normal {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-ofi {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .btn-reset {
+      background: #ffffff;
+      color: #ef4444;
+      border: 1px solid #fca5a5;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-reset:hover {
+      background: #fef2f2;
+      border-color: #ef4444;
+      transform: translateY(-1px);
+    }
+
+    footer {
+      background: #0f172a;
+      color: #64748b;
+      text-align: center;
+      padding: 25px 20px;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+    }
+
+    footer strong {
+      color: #94a3b8;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .call-info-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .grid-container {
+        grid-template-columns: 1fr;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Main Header -->
+  <header>
+    <div class="header-badge">
+      <i class="fa-solid fa-graduation-cap"></i> Convocatòria UPC 2026
+    </div>
+    <h1>TESTS OPO UPC · Auxiliar de Serveis</h1>
+    <p>Plataforma interactiva de preparació per a les 67 places de la Universitat Politècnica de Catalunya</p>
+  </header>
+
+  <!-- Key Information Banner -->
+  <div class="call-info-bar">
+    <div class="info-item">
+      <i class="fa-solid fa-users"></i>
+      <div><strong>67 Places</strong> <span>Auxiliar de Serveis</span></div>
+    </div>
+    <div class="info-item">
+      <i class="fa-regular fa-calendar-check"></i>
+      <div><strong>Fase 1:</strong> <span>Novembre 2026 (Prova Tècnica)</span></div>
+    </div>
+    <div class="info-item">
+      <i class="fa-solid fa-comments"></i>
+      <div><strong>Fase 2:</strong> <span>Gener 2027 (Entrevista)</span></div>
+    </div>
+  </div>
+
+  <main>
+    <!-- TEMARI OFICIAL UPC SECTIONS -->
+    <div class="section-title">
+      <h2><i class="fa-solid fa-book-open" style="color: #0052d4;"></i> Temari Oficial UPC per Blocs</h2>
+      <hr>
+    </div>
+
+    <!-- BLOC I -->
+    <details class="bloc-container" id="bloc1" open>
+      <summary>BLOC I. Organització i Normativa de la UPC</summary>
+      <div class="grid-container">
+        
+        <div class="test-card" data-test="test_upc_tema1">
+          <p><strong>TEMA 1:</strong> Estructura, organització i normativa de la UPC (Docència, recerca i servei públic, òrgans de govern).</p>
+          <div class="test-status" id="status-test_upc_tema1">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc1/1.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc1/1test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+        <div class="test-card" data-test="test_upc_tema2">
+          <p><strong>TEMA 2:</strong> Administració electrònica i legislació de Protecció de Dades (RGPD i LOPDGDD).</p>
+          <div class="test-status" id="status-test_upc_tema2">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc1/2.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc1/2test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- BLOC II -->
+    <details class="bloc-container" id="bloc2">
+      <summary>BLOC II. Atenció a l'Usuari, Logística i Gestió Documental</summary>
+      <div class="grid-container">
+        
+        <div class="test-card" data-test="test_upc_tema3">
+          <p><strong>TEMA 3:</strong> Organització del treball, arxius i gestió documental a la universitat.</p>
+          <div class="test-status" id="status-test_upc_tema3">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc2/3.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc2/3test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+        <div class="test-card" data-test="test_upc_tema4">
+          <p><strong>TEMA 4:</strong> Atenció a l'usuari i comunicació (atenció presencial, virtual, gestió de queixes i incidències).</p>
+          <div class="test-status" id="status-test_upc_tema4">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc2/4.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc2/4test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+        <div class="test-card" data-test="test_upc_tema5">
+          <p><strong>TEMA 5:</strong> Logística d'esdeveniments i equipaments audiovisuals en aules i actes institucionals.</p>
+          <div class="test-status" id="status-test_upc_tema5">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc2/5.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc2/5test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- BLOC III -->
+    <details class="bloc-container" id="bloc3">
+      <summary>BLOC III. Prevenció de Riscos, Emergències i Sostenibilitat</summary>
+      <div class="grid-container">
+        
+        <div class="test-card" data-test="test_upc_tema6">
+          <p><strong>TEMA 6:</strong> Prevenció de Riscos Laborals (PRL), emergències i primers auxilis (Pla de prevenció de la UPC, salut i seguretat en manipulació/emmagatzematge).</p>
+          <div class="test-status" id="status-test_upc_tema6">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc3/6.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc3/6test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+        <div class="test-card" data-test="test_upc_tema7">
+          <p><strong>TEMA 7:</strong> Sostenibilitat i gestió mediambiental (reciclatge, recollida selectiva i criteris mediambientals a la UPC).</p>
+          <div class="test-status" id="status-test_upc_tema7">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc3/7.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc3/7test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- BLOC IV -->
+    <details class="bloc-container" id="bloc4">
+      <summary>BLOC IV. Eines Digitals i Ofimàtica</summary>
+      <div class="grid-container">
+        
+        <div class="test-card" data-test="test_upc_tema8">
+          <p><strong>TEMA 8:</strong> Eines digitals: Ofimàtica a nivell usuari, Google Workspace i eines de comunicació electrònica.</p>
+          <div class="test-status" id="status-test_upc_tema8">Pendent ⚪</div>
+          <div class="buttons-container">
+            <a href="bloc4/8.html" class="btn-apunts"><i class="fa-solid fa-file-lines"></i> APUNTS</a>
+            <a href="bloc4/8test.html"><i class="fa-solid fa-pen-to-square"></i> Fer el test</a>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- HISTÒRIC EXÀMENS OFICIALS -->
+    <div class="section-title" style="margin-top: 50px;">
+      <h2><i class="fa-solid fa-clock-rotate-left" style="color: #0052d4;"></i> Històric d'Exàmens Oficials de Suport</h2>
+      <hr>
+    </div>
+
+    <!-- Convocatòria 2026 -->
+    <details class="bloc-container" id="exam2026">
+      <summary>Convocatòria 2026 UB</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2026b">
+          <span class="badge badge-normal">30 Preguntes</span>
+          <h2>Examen C2 Auxiliar admin Model B</h2>
+          <div class="test-status" id="status-e2026b">Pendent ⚪</div>
+          <a href="examensant/2026_c2_ubb.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2026c">
+          <span class="badge badge-normal">22 Preguntes</span>
+          <h2>Examen C2 Auxiliar admin Model C</h2>
+          <div class="test-status" id="status-e2026c">Pendent ⚪</div>
+          <a href="examensant/2026_c2_ubc.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Convocatòria 2023 -->
+    <details class="bloc-container" id="exam2023">
+      <summary>Convocatòria 2023 UPC</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2023a">
+          <span class="badge badge-normal">TEST 40 PREGUNTES</span>
+          <h2>Examen TEST C1 ADMIN</h2>
+          <div class="test-status" id="status-e2023a">Pendent ⚪</div>
+          <a href="examensant/2023_c1practica.html">Fer el test</a>
+        </div>
+        <div class="test-card real-exam" data-test="e2023b">
+          <span class="badge badge-normal">TEST 40 PREGUNTES</span>
+          <h2>Examen PRÀCTIC C1 ADMIN</h2>
+          <div class="test-status" id="status-e2023b">Pendent ⚪</div>
+          <a href="examensant/2023_c1practica.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Convocatòria 2022 -->
+    <details class="bloc-container" id="exam2022">
+      <summary>Convocatòria 2022</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2022a">
+          <span class="badge badge-normal">Legislatiu / Teòric</span>
+          <h2>Examen Model A</h2>
+          <div class="test-status" id="status-e2022a">Pendent ⚪</div>
+          <a href="2022/model_2022_a.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2022b">
+          <span class="badge badge-normal">Legislatiu / Teòric</span>
+          <h2>Examen Model B</h2>
+          <div class="test-status" id="status-e2022b">Pendent ⚪</div>
+          <a href="2022/model_2022_b.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2022ao">
+          <span class="badge badge-ofi">Ofimàtica & Pràctic</span>
+          <h2>Ofimàtica Model A</h2>
+          <div class="test-status" id="status-e2022ao">Pendent ⚪</div>
+          <a href="2022/model_2022_ao.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2022bo">
+          <span class="badge badge-ofi">Ofimàtica & Pràctic</span>
+          <h2>Ofimàtica Model B</h2>
+          <div class="test-status" id="status-e2022bo">Pendent ⚪</div>
+          <a href="2022/model_2022_bo.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Convocatòria 2019 -->
+    <details class="bloc-container" id="exam2019">
+      <summary>Convocatòria 2019 UPC</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2019a">
+          <span class="badge badge-normal">TEST 100 PREGUNTES</span>
+          <h2>C2 AUXILIAR</h2>
+          <div class="test-status" id="status-e2019a">Pendent ⚪</div>
+          <a href="examensant/2019_c1test.html">Fer el test</a>
+        </div>
+        <div class="test-card real-exam" data-test="e2019b">
+          <span class="badge badge-normal">Supòsit Pràctic</span>
+          <h2>C2 SUPÒSIT PRÀCTIC</h2>
+          <div class="test-status" id="status-e2019b">Pendent ⚪</div>
+          <a href="examensant/2019_c1suposits.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Convocatòria 2018 -->
+    <details class="bloc-container" id="exam2018">
+      <summary>Convocatòria 2018</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2018a">
+          <span class="badge badge-normal">Legislatiu / Teòric</span>
+          <h2>Examen Model A</h2>
+          <div class="test-status" id="status-e2018a">Pendent ⚪</div>
+          <a href="2018/model_2018_a.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2018p">
+          <span class="badge badge-normal">Supòsit Pràctic</span>
+          <h2>Examen Pràctic A</h2>
+          <div class="test-status" id="status-e2018p">Pendent ⚪</div>
+          <a href="2018/model_2018_p.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Convocatòria 2009 -->
+    <details class="bloc-container" id="exam2009">
+      <summary>Convocatòria 2009</summary>
+      <div class="grid-container">
+        <div class="test-card real-exam" data-test="e2009a">
+          <span class="badge badge-normal">Legislatiu / Teòric</span>
+          <h2>Examen Model A</h2>
+          <div class="test-status" id="status-e2009a">Pendent ⚪</div>
+          <a href="2009/model_2009_a.html">Fer el test</a>
+        </div>
+
+        <div class="test-card real-exam" data-test="e2009b">
+          <span class="badge badge-normal">Legislatiu / Teòric</span>
+          <h2>Examen Model B</h2>
+          <div class="test-status" id="status-e2009b">Pendent ⚪</div>
+          <a href="2009/model_2009_b.html">Fer el test</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- RESET PROGRESS BUTTON -->
+    <div style="text-align: center; margin: 40px 0;">
+      <button class="btn-reset" onclick="resetearProgreso()">
+        <i class="fa-solid fa-trash-can"></i> Reiniciar tot el progrés
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <strong>Oposició UPC - Auxiliar de Serveis (67 Places)</strong> · Preparació Oficial PTGAS</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      cargarProgreso();
+      gestionarDesplegables();
+    });
+
+    /**
+     * Carga el progreso desde localStorage permitiendo soporte para 'opoamb_results'
+     */
+    function cargarProgreso() {
+      const cards = document.querySelectorAll('[data-test]');
+      const opoambResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+
+      cards.forEach(card => {
+        const testId = card.getAttribute('data-test');
+        const statusDiv = document.getElementById(`status-${testId}`);
+        if (!statusDiv) return;
+
+        // Caso 1: Resultado desde opoamb_results (Exámenes interactivos de los temas)
+        if (opoambResults[testId]) {
+          const res = opoambResults[testId];
+          const progress = res.progress || 0;
+          const fallos = res.fallos || 0;
+
+          if (progress < 100) {
+            card.classList.add('card-progress');
+            statusDiv.innerHTML = `⏳ En curs (${progress}% completat)`;
+            statusDiv.className = 'test-status status-progress';
+          } else {
+            if (fallos <= 5) {
+              card.classList.add('card-passed');
+              statusDiv.innerHTML = `✅ Apte (${fallos} fallades)`;
+              statusDiv.className = 'test-status status-passed';
+            } else {
+              card.classList.add('card-failed');
+              statusDiv.innerHTML = `❌ No Apte (${fallos} fallades)`;
+              statusDiv.className = 'test-status status-failed';
+            }
+          }
+          return;
+        }
+
+        // Caso 2: Formatos de almacenamiento individuales habituales
+        const savedResult = localStorage.getItem(`result-${testId}`);
+        const savedProgress = localStorage.getItem(`progress-${testId}`);
+
+        if (savedResult) {
+          try {
+            const data = JSON.parse(savedResult);
+            const fallos = data.fallos !== undefined ? data.fallos : (10 - (data.nota || 0));
+
+            if (fallos <= 5) {
+              card.classList.add('card-passed');
+              statusDiv.innerHTML = `✅ Apte (${fallos} fallades)`;
+              statusDiv.className = 'test-status status-passed';
+            } else {
+              card.classList.add('card-failed');
+              statusDiv.innerHTML = `❌ No Apte (${fallos} fallades)`;
+              statusDiv.className = 'test-status status-failed';
+            }
+          } catch(e) {
+            console.error("Error cargando resultado de " + testId, e);
+          }
+        } else if (savedProgress) {
+          try {
+            const progressData = JSON.parse(savedProgress);
+            const total = progressData.total || 0;
+            const respondidas = Object.keys(progressData.respuestas || {}).length;
+            const percent = total > 0 ? Math.round((respondidas / total) * 100) : 0;
+
+            card.classList.add('card-progress');
+            statusDiv.innerHTML = `⏳ En curs (${percent}% completat)`;
+            statusDiv.className = 'test-status status-progress';
+          } catch(e) {
+            console.error("Error cargando progreso de " + testId, e);
+          }
+        }
+      });
+    }
+
+    /**
+     * Asegura que solo un desplegable esté abierto a la vez.
+     */
+    function gestionarDesplegables() {
+      const detalles = document.querySelectorAll('.bloc-container');
+      const lastOpened = localStorage.getItem('lastOpenedBlocUPC');
+
+      if (lastOpened) {
+        detalles.forEach(d => d.removeAttribute('open'));
+        const target = document.getElementById(lastOpened);
+        if (target) target.setAttribute('open', '');
+      }
+
+      detalles.forEach(det => {
+        det.addEventListener('toggle', () => {
+          if (det.open) {
+            detalles.forEach(other => { 
+              if (other !== det) other.removeAttribute('open'); 
+            });
+            localStorage.setItem('lastOpenedBlocUPC', det.id);
+          }
+        });
+      });
+    }
+
+    /**
+     * Borra el progreso acumulado en localStorage.
+     */
+    function resetearProgreso() {
+      if (confirm("Segur que vols esborrar totes les dades i reiniciar el teu progrés d'estudi?")) {
+        Object.keys(localStorage).forEach(key => {
+          if (key.startsWith('result-') || key.startsWith('progress-') || key.startsWith('questions-') || key === 'opoamb_results') {
+            localStorage.removeItem(key);
+          }
+        });
+        localStorage.removeItem('lastOpenedBlocUPC');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

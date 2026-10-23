@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prova de Coneixements - UPC</title>
+
+    <style>
+        :root {
+            --paper-bg: #fdfcfa;
+            --ink-color: #111;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: "Calibri", Arial, sans-serif;
+            background-color: #555;
+            color: var(--ink-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Barra superior persistent */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 2px solid var(--border-color);
+            padding: 15px 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-container {
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .stat-badge.success {
+            color: #2e8b57;
+            border-color: #2e8b57;
+        }
+
+        .stat-badge.danger {
+            color: #d9381e;
+            border-color: #d9381e;
+        }
+
+        /* Contenedor de botones */
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Botón Tornar */
+        .btn-back {
+            background-color: #777;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #040000;
+        }
+
+        /* Botón Reiniciar - color diferente */
+        .btn-restart {
+            background-color: #fb9cad;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-restart:hover {
+            background-color: #d70000;
+        }
+
+        /* Contenedor principal */
+        .exam-container {
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            padding: 50px 75px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            height: 100px;
+            width: auto;
+            display: block;
+        }
+
+        .org-info {
+            font-size: 11px;
+            line-height: 1.3;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .exam-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .instructions {
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #666;
+            padding-bottom: 15px;
+        }
+
+        .instructions ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin: 30px 0 15px 0;
+            text-decoration: underline;
+            text-transform: uppercase;
+        }
+
+        .question-block {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 1px;
+            padding: 2px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .option-letter-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            min-width: 28px;
+            height: 28px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            flex: 1;
+            padding-top: 3px;
+        }
+
+        /* Cercle imperfecte SVG */
+        .imperfect-circle {
+            position: absolute;
+            top: -4px;
+            left: -5px;
+            width: 38px;
+            height: 36px;
+            pointer-events: none;
+            display: none;
+            background: transparent !important;
+        }
+
+        .imperfect-circle path {
+            fill: none !important;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .option-item.selected-wrong .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-wrong .imperfect-circle path {
+            stroke: #d9381e;
+        }
+
+        .option-item.selected-correct .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-correct .imperfect-circle path {
+            stroke: #2e8b57;
+        }
+
+        /* Copyright */
+        .copyright {
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #eee;
+            font-size: 12px;
+            padding: 5px 20px 20px 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .sticky-header {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .stats-container {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .exam-container {
+                padding: 25px 20px;
+                margin-top: 10px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .org-info {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <div class="sticky-header">
+        <div class="stats-container">
+            <span class="stat-badge">
+                Total: <span id="count-total">0</span>
+            </span>
+            <span class="stat-badge success">
+                Encerts: <span id="count-correct">0</span>
+            </span>
+            <span class="stat-badge danger">
+                Fallades: <span id="count-wrong">0</span>
+            </span>
+        </div>
+
+        <div class="header-buttons">
+            <button class="btn-back" onclick="window.location.href='../index.html'">
+                ← Tornar
+            </button>
+            <button class="btn-restart" onclick="confirmarReinicio()">
+                ↻ Reiniciar examen
+            </button>
+        </div>
+    </div>
+
+    <!-- EXAMEN -->
+    <div class="exam-container">
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="../img/logohorizontal.png" alt="Logo UPC">
+            </div>
+            <div class="org-info">
+                Universitat Politècnica de Catalunya<br>
+                Gabinet de Recursos Humans
+            </div>
+        </div>
+
+        <div class="exam-title">
+            C1 - PROVA TEST - 2023
+            <br><br>
+            CONVOCATÒRIA DE PROVES SELECTIVES PER A L’ACCÉS EN TORN LLIURE A L’ESCALA
+            ADMINISTRATIVA, SUBGRUP C1, DE LA UNIVERSITAT POLITÈCNICA DE CATALUNYA
+            <br><br><br>
+            CONCURS OPOSICIÓ
+            <br><br>
+            Resolució 020_SDP-2022-3768/491
+        </div>
+
+        <div class="instructions">
+            <strong>INSTRUCCIONS</strong>
+            <ul>
+                <li> Indiqueu les vostres respostes al full de lectura òptica, marcant l’opció de resposta escollida (A, B, C, D) al costat
+                de cada pregunta.
+                <li> L’enunciat està imprès a doble cara i consta de 80 preguntes amb 4 respostes alternatives, on només 1 resposta
+                és la correcta.
+                <li> Resposta correcta: suma 1 punt; resposta incorrecta: descompta ¼ de punt (0,25 punts); resposta en blanc: no
+                descompta punts.
+                <li> Temps màxim: 1 hora 20 minuts</li>
+            </ul>
+        </div>
+
+        <div id="quiz-container">
+            <!-- S'omplirà dinàmicament des de JS -->
+        </div>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="copyright">
+        © 2026 OpoUPC | Creat per JOMP
+    </div>
+
+    <script src="2023_c1test.js"></script>
+
+    <script>
+        const EXAM_KEY = 'e2023a';
+
+        let encerts = 0;
+        let fallades = 0;
+        let totalPreguntes = 0;
+
+        /* Guarda l'estat complet de les respostes al localStorage */
+        function guardarEstatExamen() {
+            const estatPreguntes = {};
+            document.querySelectorAll('.question-block').forEach((bloc, index) => {
+                const items = bloc.querySelectorAll('.option-item');
+                items.forEach((item, optIndex) => {
+                    if (item.classList.contains('selected-correct')) {
+                        estatPreguntes[index] = { type: 'correct', optIndex };
+                    } else if (item.classList.contains('selected-wrong')) {
+                        estatPreguntes[index] = { type: 'wrong', optIndex };
+                    }
+                });
+            });
+
+            const guardatDetallat = {
+                estatPreguntes,
+                encerts,
+                fallades
+            };
+            localStorage.setItem(`detalls_${EXAM_KEY}`, JSON.stringify(guardatDetallat));
+        }
+
+        /* Actualitza els comptadors i guarda l'estat general per a l'index */
+        function actualitzarComptadors() {
+            document.getElementById('count-total').textContent = totalPreguntes;
+            document.getElementById('count-correct').textContent = encerts;
+            document.getElementById('count-wrong').textContent = fallades;
+
+            const respostesFetes = document.querySelectorAll('.question-block.responuda').length;
+            if (totalPreguntes > 0) {
+                let progressPercent = Math.round((respostesFetes / totalPreguntes) * 100);
+                let finalitzat = (respostesFetes === totalPreguntes);
+                if (progressPercent > 99 && !finalitzat) progressPercent = 99;
+
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                examResults[EXAM_KEY] = {
+                    progress: progressPercent,
+                    fallos: fallades,
+                    aciertos: encerts,
+                    total: totalPreguntes,
+                    passed: finalitzat ? (fallades <= 5) : false
+                };
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                
+                guardarEstatExamen();
+            }
+        }
+
+        /* Carrega / torna a carregar l'examen incloent test i preguntes obertes */
+        function carregarExamen() {
+            encerts = 0;
+            fallades = 0;
+
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            let preguntesBarrejades = barrejarArray(preguntesObligatories);
+            let reservesBarrejades = (typeof preguntesReserva !== 'undefined')
+                ? barrejarArray(preguntesReserva)
+                : [];
+
+            let numObertes = (typeof preguntesObertes !== 'undefined') ? preguntesObertes.length : 0;
+
+            totalPreguntes = preguntesBarrejades.length + reservesBarrejades.length + numObertes;
+
+            let htmlTotal = '';
+
+            preguntesBarrejades.forEach((q, indexReal) => {
+                htmlTotal += generarHTMLPregunta(q, indexReal + 1, 'obl');
+            });
+
+            if (reservesBarrejades.length > 0) {
+                htmlTotal += `
+                    <div class="section-title">
+                        Preguntes de reserva
+                    </div>
+                `;
+
+                reservesBarrejades.forEach((q, indexReal) => {
+                    htmlTotal += generarHTMLPregunta(q, indexReal + 16, 'res');
+                });
+            }
+
+            // Renderitzem les preguntes de resposta oberta / breu
+            if (numObertes > 0) {
+                htmlTotal += `
+                    <div class="section-title">
+                        Preguntes de Resposta Breu / Pràctica
+                    </div>
+                `;
+
+                preguntesObertes.forEach((q, index) => {
+                    htmlTotal += generarHTMLPreguntaOberta(q, 37 + index);
+                });
+            }
+
+            container.innerHTML = htmlTotal;
+            
+            // Intentar restaurar respostes guardades prèviament
+            restaurarEstatExamen();
+            
+            actualitzarComptadors();
+            activarListeners();
+        }
+
+        /* Restaura les respostes des del localStorage si existeixen */
+        function restaurarEstatExamen() {
+            const guardatDetallat = JSON.parse(localStorage.getItem(`detalls_${EXAM_KEY}`) || 'null');
+            if (!guardatDetallat) return;
+
+            encerts = guardatDetallat.encerts || 0;
+            fallades = guardatDetallat.fallades || 0;
+
+            const blocs = document.querySelectorAll('.question-block');
+            const estat = guardatDetallat.estatPreguntes || {};
+
+            Object.keys(estat).forEach(blocIdx => {
+                const bloc = blocs[blocIdx];
+                if (!bloc) return;
+                const dades = estat[blocIdx];
+                const items = bloc.querySelectorAll('.option-item');
+                const itemDesti = items[dades.optIndex];
+
+                if (itemDesti) {
+                    bloc.classList.add('responuda');
+                    if (dades.type === 'correct') {
+                        itemDesti.classList.add('selected-correct');
+                    } else if (dades.type === 'wrong') {
+                        itemDesti.classList.add('selected-wrong');
+                    }
+                }
+            });
+        }
+
+        /* Baralla un array */
+        function barrejarArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        /* Genera una pregunta tipus test */
+        function generarHTMLPregunta(q, numeroVisual, tipus) {
+            let opcionsBarrejades = barrejarArray(q.opcions);
+            let lletres = ['a', 'b', 'c', 'd'];
+            let htmlOpcions = '';
+
+            opcionsBarrejades.forEach((op, i) => {
+                let lletraAssignada = lletres[i];
+                let esCorrectaAttr = op.correcte ? 'true' : 'false';
+
+                htmlOpcions += `
+                    <li
+                        class="option-item"
+                        data-correcte="${esCorrectaAttr}"
+                    >
+                        <div class="option-letter-wrapper">
+                            <span class="option-letter">
+                                ${lletraAssignada})
+                            </span>
+                            <svg
+                                class="imperfect-circle"
+                                viewBox="0 0 50 40"
+                                preserveAspectRatio="none"
+                            >
+                                <path d="
+                                    M 6,6
+                                    Q 25,2 44,8
+                                    Q 48,20 42,34
+                                    Q 25,38 5,32
+                                    Q 2,18 6,6 Z
+                                "></path>
+                            </svg>
+                        </div>
+                        <span class="option-text">
+                            ${op.text}
+                        </span>
+                    </li>
+                `;
+            });
+
+            return `
+                <div
+                    class="question-block"
+                    data-tipus="${tipus}"
+                >
+                    <div class="question-text">
+                        ${numeroVisual}. ${q.pregunta}
+                    </div>
+                    <ul class="options-list">
+                        ${htmlOpcions}
+                    </ul>
+                </div>
+            `;
+        }
+
+        /* Genera una pregunta de resposta oberta / breu */
+        function generarHTMLPreguntaOberta(q, numeroVisual) {
+            return `
+                <div class="question-block question-open" id="block-${q.id}" style="background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <div class="question-text" style="font-weight: bold; margin-bottom: 10px;">
+                        ${numeroVisual}. ${q.pregunta}
+                    </div>
+                    
+                    <div style="margin: 10px 0;">
+                        <input 
+                            type="text" 
+                            id="input-${q.id}" 
+                            placeholder="Escriu la teva resposta aquí..." 
+                            style="width: 100%; max-width: 500px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;"
+                        >
+                    </div>
+
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 10px;">
+                        <button 
+                            type="button"
+                            onclick="comprovarRespostaOberta('${q.id}', '${q.respostaCorrecta.replace(/'/g, "\\'")}')"
+                            style="background: #4364f7; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;"
+                        >
+                            Validar resposta
+                        </button>
+
+                        <button 
+                            type="button"
+                            onclick="togglePista('${q.id}')"
+                            style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;"
+                        >
+                            💡 Pista
+                        </button>
+
+                        <button 
+                            type="button"
+                            onclick="revelarResposta('${q.id}', '${q.respostaCorrecta.replace(/'/g, "\\'")}')"
+                            style="background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;"
+                        >
+                            👁️ Veure resposta
+                        </button>
+                    </div>
+
+                    <div id="pista-${q.id}" style="display: none; margin-top: 8px; font-size: 12px; color: #0284c7; font-style: italic; background: #f0f9ff; padding: 6px; border-radius: 4px;">
+                        📌 <strong>Pista:</strong> ${q.pista}
+                    </div>
+
+                    <div id="feedback-${q.id}" style="display: none; margin-top: 8px; font-size: 13px; font-weight: bold;"></div>
+                </div>
+            `;
+        }
+
+        /* Funcions d'interacció per a preguntes obertes */
+        function togglePista(id) {
+            const el = document.getElementById(`pista-${id}`);
+            el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+        }
+
+        function comprovarRespostaOberta(id, respostaCorrecta) {
+            const input = document.getElementById(`input-${id}`).value.trim();
+            const feedback = document.getElementById(`feedback-${id}`);
+            
+            if (!input) {
+                feedback.style.display = 'block';
+                feedback.style.color = '#d97706';
+                feedback.innerHTML = '⚠️ Escriu una resposta abans de validar.';
+                return;
+            }
+
+            if (input.toLowerCase() === respostaCorrecta.toLowerCase()) {
+                feedback.style.display = 'block';
+                feedback.style.color = '#16a34a';
+                feedback.innerHTML = '✅ Correcte!';
+            } else {
+                feedback.style.display = 'block';
+                feedback.style.color = '#dc2626';
+                feedback.innerHTML = `❌ Incorrecte. Torna-ho a provar o prem "Veure resposta".`;
+            }
+        }
+
+        function revelarResposta(id, respostaCorrecta) {
+            const feedback = document.getElementById(`feedback-${id}`);
+            feedback.style.display = 'block';
+            feedback.style.color = '#2563eb';
+            feedback.innerHTML = `🔑 <strong>Resposta esperada:</strong> ${respostaCorrecta}`;
+        }
+
+        /* Activa los clics de las respuestas permitiendo cambiar dinámicamente de opción */
+        function activarListeners() {
+            const blocsPreguntes = document.querySelectorAll('.question-block:not(.question-open)');
+
+            blocsPreguntes.forEach(bloc => {
+                const items = bloc.querySelectorAll('.option-item');
+
+                items.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const esCorrecta = this.getAttribute('data-correcte') === 'true';
+                        const yaEstabaSeleccionada = this.classList.contains('selected-correct') || this.classList.contains('selected-wrong');
+
+                        if (yaEstabaSeleccionada) {
+                            if (this.classList.contains('selected-correct')) {
+                                encerts--;
+                            } else if (this.classList.contains('selected-wrong')) {
+                                fallades--;
+                            }
+                            this.classList.remove('selected-correct', 'selected-wrong');
+                            
+                            const quedaAlguna = Array.from(items).some(opt => opt.classList.contains('selected-correct') || opt.classList.contains('selected-wrong'));
+                            if (!quedaAlguna) {
+                                bloc.classList.remove('responuda');
+                            }
+                            actualitzarComptadors();
+                            return;
+                        }
+
+                        items.forEach(opt => {
+                            if (opt.classList.contains('selected-correct')) {
+                                encerts--;
+                                opt.classList.remove('selected-correct');
+                            }
+                            if (opt.classList.contains('selected-wrong')) {
+                                fallades--;
+                                opt.classList.remove('selected-wrong');
+                            }
+                        });
+
+                        if (esCorrecta) {
+                            this.classList.add('selected-correct');
+                            encerts++;
+                        } else {
+                            this.classList.add('selected-wrong');
+                            fallades++;
+                        }
+
+                        bloc.classList.add('responuda');
+                        actualitzarComptadors();
+                    });
+                });
+            });
+        }
+
+        /* Pregunta antes de reiniciar. */
+        function confirmarReinicio() {
+            const confirmar = confirm(
+                "¿Estàs segur que vols reiniciar l'examen?\n\n" +
+                "Es perdran les respostes actuals i " +
+                "les preguntes i respostes es tornaran a barrejar."
+            );
+
+            if (confirmar) {
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                delete examResults[EXAM_KEY];
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                localStorage.removeItem(`detalls_${EXAM_KEY}`);
+
+                reiniciarExamen();
+            }
+        }
+
+        /* Reinicia completamente el examen. */
+        function reiniciarExamen() {
+            carregarExamen();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        /* Carga inicial */
+        window.onload = carregarExamen;
+    </script>
+</body>
+
+</html>

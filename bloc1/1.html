@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunts - Tema 1 Opo Auxiliar de Serveis UPC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #111111;
+        }
+        h1, h2, h3, h4, .font-arial-bold {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+        /* Quadre d'alerta per a preguntes típiques de test (groc pastel / blau) */
+        .highlight-box-exam {
+            background-color: #fffbe3;
+            border: 1px solid #fde68a;
+            border-left: 4px solid #d97706;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+        /* Quadre per a aspectes clau / organigrama de la UPC (blau/indigo) */
+        .highlight-box-upc {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+        /* Quadre per al rol específic d'Auxiliar de Serveis (celeste/turquesa) */
+        .highlight-box-serveis {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 4px solid #16a34a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-900 flex flex-col justify-between">
+
+    <!-- HEADER / BARRA SUPERIOR -->
+    <header class="w-full border-b border-blue-100 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center">
+                        <img src="../img/logohorizontal.png" alt="Logo UPC" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="text-xs text-blue-700 font-bold hidden text-center px-1">img/logohorizontal.png</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-black">
+                        Oposicions Auxiliar de Serveis <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">UPC</span>
+                    </h1>
+                </div>
+
+                <a href="index.html" class="sm:hidden inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-300 hover:bg-blue-700 hover:text-white hover:border-blue-700 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span>Inici</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div class="w-full sm:w-80">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
+                        <input type="text" id="searchInput" placeholder="Cercar al Tema 1..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                    </div>
+                </div>
+
+                <a href="../index.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-300 hover:bg-blue-700 hover:text-white hover:border-blue-700 rounded-lg transition-colors shrink-0 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span>Tornar a l'Inici</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- CONTINGUT PRINCIPAL -->
+    <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-grow space-y-8">
+        
+        <div class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <span>Temari General</span>
+            <span>/</span>
+            <span class="text-blue-700">Tema 1</span>
+        </div>
+
+        <div class="border-b-2 border-blue-600 pb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-black tracking-tight">
+                TEMA 1: Estructura, organització i normativa de la UPC (Docència, recerca, servei públic i òrgans de govern)
+            </h2>
+        </div>
+
+        <!-- REQUADRE DE PREGUNTES DE TEST TÍPIQUES (EN DESTACAT D'ENTRADA) -->
+        <div class="highlight-box-exam text-xs space-y-2">
+            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span>⚠️ PREGUNTES TÍPIQUES QUE SOLEN POSAR A L'EXAMEN (PUNTS DE TALL)</span>
+            </div>
+            <ul class="list-disc pl-5 space-y-1.5 text-gray-800">
+                <li><strong>Com es regula la relació entre la UPC i les entitats del Grup UPC?</strong> Mitjançant un <em>Contracte Programa</em> (Art. 45 Estatuts).</li>
+                <li><strong>Qui té la competència per crear, modificar o suprimir Unitats d'Administració i Serveis?</strong> El <em>Consell de Govern</em>, a proposta del Rector/a (Art. 39 Estatuts).</li>
+                <li><strong>Quin és l'òrgan de participació de la SOCIETAT a la Universitat?</strong> El <em>Consell Social</em> (Art. 55 Estatuts).</li>
+                <li><strong>Durada del mandat del Rector/a, Degans/es i Directors/es d'unitats acadèmiques:</strong> <em>6 anys</em> (Art. 51.4 Estatuts) - *Ull amb el canvi recent de normativa!*</li>
+                <li><strong>Qui resol les resolucions que exhaureixen la via administrativa?</strong> Les resolucions del Rector/a i acords del Consell Social, Consell de Govern, Claustre i Junta Electoral (Art. 54 Estatuts).</li>
+            </ul>
+        </div>
+
+        <!-- CONTENIDOR EN COLUMNES RESPONSIVE (FITXES) -->
+        <article class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            
+            <!-- TARJETA 1: NATURA JURÍDICA I FUNCIONS MISIONALS -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    <h3>1. Natura Jurídica i Funcions (Estatuts UPC)</h3>
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    La <strong class="text-black">Universitat Politècnica de Catalunya (UPC)</strong> és una institució de dret públic amb personalitat jurídica pròpia i plena autonomia (Art. 27.10 CE).
+                </p>
+                
+                <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100 space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Tres Pilars / Missions de la UPC:</span>
+                    <ul class="space-y-1.5 text-xs text-gray-700">
+                        <li class="flex items-start gap-1.5">
+                            <span class="text-blue-600 font-bold">▪</span> <span><strong>Docència:</strong> Formació d'educació superior acadèmica i professional (Grau, Màster, Doctorat).</span>
+                        </li>
+                        <li class="flex items-start gap-1.5">
+                            <span class="text-blue-600 font-bold">▪</span> <span><strong>Recerca i Transferència:</strong> Creació, desenvolupament i transferència del coneixement tècnic i científic a la societat.</span>
+                        </li>
+                        <li class="flex items-start gap-1.5">
+                            <span class="text-blue-600 font-bold">▪</span> <span><strong>Servei Públic:</strong> Compromís amb el desenvolupament social, econòmic, sostenibilitat i la cultura.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TARJETA 2: CLASSIFICACIÓ D'ÒRGANS DE GOVERN (MOLT IMPORTANT PER A TEST) -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <h3>2. Òrgans Generals de Govern (Art. 49)</h3>
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    Es diferencien clarament entre **Col·legiats** (equips/comissions) i **Unipersonals** (càrrecs Individuals):
+                </p>
+
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-2 text-xs text-gray-700">
+                    <p><strong>👥 Òrgans Col·legiats Generals:</strong></p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><strong>Claustre Universitari:</strong> Màxim òrgan de representació de la comunitat universitària.</li>
+                        <li><strong>Consell Social:</strong> Participació de la societat en la universitat (aprovació de pressupostos).</li>
+                        <li><strong>Consell de Govern:</strong> Òrgan ordinari de govern de la Universitat.</li>
+                    </ul>
+                    <p class="pt-2"><strong>👤 Òrgans Unipersonals Generals:</strong></p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li>Rector/a (màxima autoritat acadèmica i de gestió).</li>
+                        <li>Vicerectors/es, Secretari/a General i Gerent/a.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TARJETA 3: TAULA COMPARATIVA D'ÒRGANS I FUNCIONS (RESUM DE REPAS) -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors md:col-span-2">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <h3>3. Resum d'Òrgans clau de la UPC per al test</h3>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full border-collapse text-xs bg-white">
+                        <thead>
+                            <tr class="bg-blue-900 text-white font-bold">
+                                <th class="p-3 text-left">Òrgan</th>
+                                <th class="p-3 text-left">Tipus</th>
+                                <th class="p-3 text-left">Funció Principal</th>
+                                <th class="p-3 text-left">Presidència / Cap</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-gray-700">
+                            <tr>
+                                <td class="p-3 font-bold">Rector / Rectores</td>
+                                <td class="p-3">Unipersonal</td>
+                                <td class="p-3">Màxima autoritat acadèmica, govern, gestió i representació.</td>
+                                <td class="p-3">Rector/a (Elegit/da per la comunitat)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">Consell Social</td>
+                                <td class="p-3">Col·legiat</td>
+                                <td class="p-3">Aprovar pressupost, taxes, programació i connexió amb la societat.</td>
+                                <td class="p-3">President/a del Consell Social (Nomenat/da per Generalitat)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">Consell de Govern</td>
+                                <td class="p-3">Col·legiat</td>
+                                <td class="p-3">Línies estratègiques, reglamentació interna, pla d'estudis i plantilles.</td>
+                                <td class="p-3">Presidit pel Rector/a</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">Gerent / Gerenta</td>
+                                <td class="p-3">Unipersonal</td>
+                                <td class="p-3">Gestió dels serveis administratius i econòmics de la UPC.</td>
+                                <td class="p-3">Nomenat/da pel Rector d'acord amb el Consell Social</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">UTG (Unitats Transversals)</td>
+                                <td class="p-3">Estructura de Gestió</td>
+                                <td class="p-3">Gestió d'infraestructures de campus i suport administratiu a diversos centres/departaments.</td>
+                                <td class="p-3">Cap de la UTG</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TARJETA 4: UNITATS ACADÈMIQUES I DE GESTIÓ -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <h3>4. Estructura Acadèmica de la UPC</h3>
+                </div>
+                <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100 space-y-2 text-xs text-gray-700">
+                    <p><strong>Escoles i Facultats (Centres Docents):</strong> S'encarreguen de la gestió i organització dels ensenyaments i títols acadèmics. Dirigides per Degans/es o Directors/es.</p>
+                    <p><strong>Departaments:</strong> Unitats de docència i recerca encarregades de coordinar l'ensenyament d'àrees de coneixement. Dirigits per Director/a de Departament.</p>
+                    <p><strong>Instituts Universitaris de Recerca (IUR):</strong> Promoció i desenvolupament de la investigació científica i tècnica.</p>
+                </div>
+            </section>
+
+            <!-- TARJETA 5: ROL I APLICACIÓ PRÀCTICA PER A L'AUXILIAR DE SERVEIS -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-green-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <h3>5. Què implica aquest tema per a l'Auxiliar de Serveis?</h3>
+                </div>
+                
+                <div class="highlight-box-serveis text-xs space-y-2">
+                    <p class="font-bold">🔑 APLICACIÓ A LES TEVES TASQUES DIÀRIES (67 PLACES):</p>
+                    <p>Com a Auxiliar de Serveis en un campus, Escola o UTG de la UPC, les teves funcions depenen directament d'aquesta estructura:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                        <li><strong>Ubicació en l'organigrama:</strong> Depens funcionalment de la Gerència i de la direcció de la teva Unitat Transversal de Gestió (UTG) o Centre.</li>
+                        <li><strong>Atenció al públic i comunitat:</strong> Donaràs suport directament als tres sectors de la comunitat universitària (Estudiantat, PDI i PAS).</li>
+                        <li><strong>Suport als actes dels Òrgans:</strong> Suport logístic, d'obertura/tancament d'espais i control d'accessos en les reunions de Juntes de Centre, Claustre o Consell de Govern.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </article>
+
+    </main>
+
+    <!-- FOOTER / PEU DE PÀGINA -->
+    <footer class="w-full border-t border-gray-200 bg-white py-4 text-center text-xs text-gray-500">
+        <p>© 2026 OpoUPC | &copy; Creat per JOMP | Preparació Oposicions Auxiliar de Serveis UPC</p>
+    </footer>
+
+<script>
+    // Script funcional per al cercador del Tema 1
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const sections = document.querySelectorAll('main article section, .highlight-box-exam');
+
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (searchTerm === '' || text.includes(searchTerm)) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

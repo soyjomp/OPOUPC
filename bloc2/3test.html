@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tema 3 - Organització del Treball i Gestió Documental UPC</title>
+
+    <style>
+        :root {
+            --paper-bg: #fdfcfa;
+            --ink-color: #111;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: "Calibri", Arial, sans-serif;
+            background-color: #555;
+            color: var(--ink-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Barra superior persistent */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border-bottom: 2px solid var(--border-color);
+            padding: 15px 50px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stats-container {
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .stat-badge.success {
+            color: #2e8b57;
+            border-color: #2e8b57;
+        }
+
+        .stat-badge.danger {
+            color: #d9381e;
+            border-color: #d9381e;
+        }
+
+        /* Contenedor de botones */
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-back {
+            background-color: #777;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #040000;
+        }
+
+        .btn-restart {
+            background-color: #fb9cad;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: "Calibri", Arial, sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-restart:hover {
+            background-color: #d70000;
+        }
+
+        /* Contenedor principal */
+        .exam-container {
+            background-color: var(--paper-bg);
+            width: 100%;
+            max-width: 900px;
+            padding: 50px 75px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            height: 100px;
+            width: auto;
+            display: block;
+        }
+
+        .org-info {
+            font-size: 11px;
+            line-height: 1.3;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .exam-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .instructions {
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed #666;
+            padding-bottom: 15px;
+        }
+
+        .instructions ul {
+            margin: 5px 0 0 20px;
+            padding: 0;
+        }
+
+        .question-block {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            margin-bottom: 1px;
+            padding: 2px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .option-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .option-letter-wrapper {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            min-width: 28px;
+            height: 28px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            flex: 1;
+            padding-top: 3px;
+        }
+
+        /* Cercle imperfecte SVG */
+        .imperfect-circle {
+            position: absolute;
+            top: -4px;
+            left: -5px;
+            width: 38px;
+            height: 36px;
+            pointer-events: none;
+            display: none;
+            background: transparent !important;
+        }
+
+        .imperfect-circle path {
+            fill: none !important;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .option-item.selected-wrong .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-wrong .imperfect-circle path {
+            stroke: #d9381e;
+        }
+
+        .option-item.selected-correct .imperfect-circle {
+            display: block;
+        }
+
+        .option-item.selected-correct .imperfect-circle path {
+            stroke: #2e8b57;
+        }
+
+        /* Copyright */
+        .copyright {
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #eee;
+            font-size: 12px;
+            padding: 5px 20px 20px 20px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .sticky-header {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .stats-container {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .header-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .exam-container {
+                padding: 25px 20px;
+                margin-top: 10px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .org-info {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA SUPERIOR -->
+    <div class="sticky-header">
+        <div class="stats-container">
+            <span class="stat-badge">
+                Total: <span id="count-total">0</span>
+            </span>
+            <span class="stat-badge success">
+                Encerts: <span id="count-correct">0</span>
+            </span>
+            <span class="stat-badge danger">
+                Fallades: <span id="count-wrong">0</span>
+            </span>
+        </div>
+
+        <div class="header-buttons">
+            <button class="btn-back" onclick="window.location.href='../index.html'">
+                ← Tornar a Apunts
+            </button>
+            <button class="btn-restart" onclick="confirmarReinicio()">
+                ↻ Reiniciar examen
+            </button>
+        </div>
+    </div>
+
+    <!-- EXAMEN -->
+    <div class="exam-container">
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="../img/logohorizontal.png" alt="Logo UPC" onerror="this.style.display='none'">
+            </div>
+            <div class="org-info">
+                Universitat Politècnica de Catalunya<br>
+                Preparació Oposicions Auxiliar de Serveis
+            </div>
+        </div>
+
+        <div class="exam-title">
+            TEST TEMA 3: ORGANITZACIÓ DEL TREBALL, ARXIUS I GESTIÓ DOCUMENTAL A LA UNIVERSITAT
+            <br><br>
+            QÜESTIONARI DE 25 PREGUNTES DE REPAS
+        </div>
+
+        <div class="instructions">
+            <strong>INSTRUCCIONS</strong>
+            <ul>
+                <li> Fes clic sobre l'opció que consideris correcta per a cada pregunta.</li>
+                <li> Cada resposta correcta suma 1 punt; la resposta incorrecta restarà 0.25 punts.</li>
+                <li> Pots canviar o desmarcar la teva resposta fent-hi clic de nou.</li>
+            </ul>
+        </div>
+
+        <div id="quiz-container">
+            <!-- S'omplirà dinàmicament des de JS -->
+        </div>
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="copyright">
+        © 2026 OpoUPC | Creat per JOMP
+    </div>
+
+    <!-- BANC DE PREGUNTES I LÒGICA DE L'EXAMEN -->
+    <script>
+        const EXAM_KEY = 'test_upc_tema3';
+
+        // BANC DE 25 PREGUNTES DE TEST DEL TEMA 3
+        const preguntesObligatories = [
+            {
+                id: "t3_q1",
+                pregunta: "Quines són les tres etapes o fases que componen el cicle de vida d'un document administratiu?",
+                opcions: [
+                    { text: "Fase activa, fase semiactiva i fase inactiva.", correcte: true },
+                    { text: "Fase de registre, fase de classificació i fase d'eliminació.", correcte: false },
+                    { text: "Fase d'entrada, fase de tramitació interna i fase de publicació web.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q2",
+                pregunta: "On s'ubica principalment un document durant la seva fase activa o d'ús freqüent?",
+                opcions: [
+                    { text: "A l'Arxiu Històric de la Universitat.", correcte: false },
+                    { text: "A l'Arxiu de Gestió / Oficina de la unitat o UTG corresponent.", correcte: true },
+                    { text: "Al dipòsit general de l'Arxiu Central Intermedi.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q3",
+                pregunta: "Quin òrgan col·legiat a Catalunya té la competència d'avaluar i autoritzar la tria i eliminació de documents de les administracions públiques?",
+                opcions: [
+                    { text: "La Comissió Nacional d'Accés, Avaluació i Tria Documental (CNAATD).", correcte: true },
+                    { text: "El Consell Social de la UPC.", correcte: false },
+                    { text: "L'Agència Catalana de Protecció de Dades.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q4",
+                pregunta: "Com s'estructura habitualment el Quadre de Classificació Documental a la UPC?",
+                opcions: [
+                    { text: "Segons criteris estrictament cronològics per data de creació.", correcte: false },
+                    { text: "Segons una metodologia de classificació de caràcter funcional.", correcte: true },
+                    { text: "Segons l'ordre alfabètic dels cognoms de les persones interessades.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q5",
+                pregunta: "Quina característica principal defineix els documents que arriben a l'Arxiu Històric?",
+                opcions: [
+                    { text: "Tenen un valor permanent per a la recerca, la ciència o la història de la Universitat.", correcte: true },
+                    { text: "Són d'ús diari i obligatori per a la tramitació de matrícules en curs.", correcte: false },
+                    { text: "Han de ser destruïts obligatòriament passats 5 anys.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q6",
+                pregunta: "Quin objectiu principal té una correcta organització del treball administratiu a la UPC?",
+                opcions: [
+                    { text: "Optimitzar els recursos, garantir l'eficàcia i oferir un servei de qualitat a la comunitat.", correcte: true },
+                    { text: "Reduir dràsticament el nombre d'estudiants matriculats anualment.", correcte: false },
+                    { text: "Evitar qualsevol tipus de comunicació digital entre campus.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q7",
+                pregunta: "Quina funció realitza l'Arxiu Central o Intermedi respecte a l'Arxiu de Gestió?",
+                opcions: [
+                    { text: "Rep els documents de consulta poc freqüent procedents de les oficines quan finalitza la tramitació activa.", correcte: true },
+                    { text: "Destrueix immediatament tot el paper que rep el mateix dia.", correcte: false },
+                    { text: "Emagatzema els llibres de text per a la venda directa als alumnes.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q8",
+                pregunta: "Què s'entén per normalització de procediments en l'entorn de gestió de la UPC?",
+                opcions: [
+                    { text: "L'ús de la mateixa sistemàtica i criteris d'actuació homogenis en totes les UTG i serveis.", correcte: true },
+                    { text: "La llibertat de cada treballador per inventar els seus propis impresos.", correcte: false },
+                    { text: "La prohibició absoluta d'utilitzar formularis digitals.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q9",
+                pregunta: "Quina tasca relacionada amb la documentació pot correspondre habitualment a un Auxiliar de Serveis?",
+                opcions: [
+                    { text: "La recepció, registre i distribució de paquets i correu intern.", correcte: true },
+                    { text: "L'aprovació definitiva de les taules d'avaluació documental de la universitat.", correcte: false },
+                    { text: "La redacció de la memòria anual de recerca del rectorat.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q10",
+                pregunta: "Què s'ha de fer amb els documents impresos que contenen dades personals i ja no es necessiten a la consergeria?",
+                    opcions: [
+                    { text: "Dipositar-los en contenidors segurs de destrucció confidencial certificada.", correcte: true },
+                    { text: "Llençar-los a la paperera oberta de la sala d'estar.", correcte: false },
+                    { text: "Deixar-los damunt del taulell perquè els vegin els visitants.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q11",
+                pregunta: "Per a què serveix un registre d'entrada de documents?",
+                opcions: [
+                    { text: "Per deixar constància oficial de la data i hora en què un escrit o sol·licitud entra a la universitat.", correcte: true },
+                    { text: "Per controlar el nombre de cafès que es consumeixen a les oficines.", correcte: false },
+                    { text: "Per registrar l'assistència laboral diària del PAS.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q12",
+                pregunta: "Quin avantatge principal ofereix la digitalització de fluxos documentals a la universitat?",
+                opcions: [
+                    { text: "Redueix el temps de tramitació, estalvia espai físic i facilita la cerca d'informació.", correcte: true },
+                    { text: "Elimina completament la necessitat de tenir servidors informàtics.", correcte: false },
+                    { text: "Fa que no sigui necessari complir amb la normativa de protecció de dades.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q13",
+                pregunta: "Quina durada aproximada pot tenir la fase semiactiva d'un expedient en un arxiu central?",
+                opcions: [
+                    { text: "Un període variable segons la normativa aplicable (sovint entre 5 i 30 anys).", correcte: true },
+                    { text: "Exactament 24 hores des de la seva impressió.", correcte: false },
+                    { text: "Menys d'una setmana.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q14",
+                pregunta: "Qui s'encarrega de coordinar la política de gestió documental i arxiu a nivell global de la UPC?",
+                opcions: [
+                    { text: "El Servei de Gestió Documental i Arxiu de la UPC.", correcte: true },
+                    { text: "Cada estudiant de primer curs de manera rotatòria.", correcte: false },
+                    { text: "El Ministeri d'Interior directament.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q15",
+                pregunta: "Quina és la definició bàsica d'un arxiu des del punt de vista administratiu?",
+                opcions: [
+                    { text: "El conjunt organitzat de documents produïts o rebuts per una entitat en el exercici de les seves funcions.", correcte: true },
+                    { text: "Un magatzem de llibres antics de lectura recreativa.", correcte: false },
+                    { text: "Una carpeta d'ordinador temporal per a fitxers descarregats d'internet.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q16",
+                pregunta: "Què cal comprovar quan es rep un paquet o correspondència oficial a la consergeria?",
+                opcions: [
+                    { text: "Que l'adreça correspongui a la unitat i que l'estat exterior no presenti desperfectes evidents.", correcte: true },
+                    { text: "Obrir-lo immediatament per llegir el seu contingut personal.", correcte: false },
+                    { text: "Llençar l'embalatge abans de registrar-lo.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q17",
+                pregunta: "Quina operació s'aplica als documents en paper quan es determina que han finalitzat el seu valor administratiu i no tenen valor històric?",
+                opcions: [
+                    { text: "La seva eliminació o destrucció controlada prèvia autorització.", correcte: true },
+                    { text: "La seva venda com a paper de regal a les botigues del campus.", correcte: false },
+                    { text: "El seu repartiment lliure entre els alumnes com a fullets.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q18",
+                pregunta: "Per què és important mantenir l'ordre i la neteja en l'espai d'arxiu d'una oficina o consergeria?",
+                opcions: [
+                    { text: "Per evitar la pèrdua de documents i garantir la ràpida localització de la informació necessària.", correcte: true },
+                    { text: "Perquè ho exigeix una inspecció meteorològica setmanal.", correcte: false },
+                    { text: "Perquè no té cap importància pràctica.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q19",
+                pregunta: "Quina relació hi ha entre la gestió documental i la LOPDGDD (Protecció de Dades)?",
+                opcions: [
+                    { text: "Els arxius han de garantir la seguretat, confidencialitat i el compliment dels terminis de conservació/supressió de dades.", correcte: true },
+                    { text: "Cap relació, són normatives totalment oposades i incompatibles.", correcte: false },
+                    { text: "La llei de protecció de dades prohibeix tenir arxius físics de cap tipus.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q20",
+                pregunta: "Què és una transferència d'arxiu?",
+                opcions: [
+                    { text: "El traspàs ordenat de documents d'un nivell d'arxiu a un altre superior (p. ex., de gestió a central).", correcte: true },
+                    { text: "L'enviament de fons econòmics entre departaments de la universitat.", correcte: false },
+                    { text: "El canvi de despatx d'un funcionari.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q21",
+                pregunta: "Quin paper juga l'Auxiliar de Serveis en la coordinació amb els diferents departaments d'una UTG?",
+                opcions: [
+                    { text: "Facilitar la comunicació, traslladar avisos i donar suport logístic en el moviment de documents i materials.", correcte: true },
+                    { text: "Modificar els plans d'estudi de les enginyeries.", correcte: false },
+                    { text: "Signar els contractes de serveis externs de la universitat.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q22",
+                pregunta: "Quina és la finalitat d'un sistema de gestió electrònica de documents (GED)?",
+                opcions: [
+                    { text: "Gestionar de manera integrada el cicle de vida dels documents digitals amb plenes garanties legals.", correcte: true },
+                    { text: "Reproduir vídeos musicals en streaming a les aules buides.", correcte: false },
+                    { text: "Controlar el consum elèctric de les bombetes del campus.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q23",
+                pregunta: "Què cal fer si es detecta un error en un document oficial rebut a la unitat administrativa?",
+                opcions: [
+                    { text: "Comunicar-ho al responsable de la unitat o remitent per procedir a la seva esmena segons el procediment.", correcte: true },
+                    { text: "Corregir-ho directament ratllant-ho amb bolígraf vermell sense avisar.", correcte: false },
+                    { text: "Llençar el document a la paperera.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q24",
+                pregunta: "Què caracteritza un document original enfront d'una còpia simple?",
+                opcions: [
+                    { text: "Que posseeix els elements formals de validesa (com signatura o segell electrònic) que l'acrediten com a autèntic.", correcte: true },
+                    { text: "Que està imprès en un paper de color diferent al blanc.", correcte: false },
+                    { text: "Que només pot ser llegit per una sola persona a tot el món.", correcte: false }
+                ]
+            },
+            {
+                id: "t3_q25",
+                pregunta: "Quin principi de seguretat s'aplica en la custòdia d'expedients acadèmics o personals a les dependències de la UPC?",
+                opcions: [
+                    { text: "El principi de custodia segura i accés restringit exclusivament al personal autoritzat.", correcte: true },
+                    { text: "El principi de lliure circulació i consulta pública a qualsevol visitant.", correcte: false },
+                    { text: "El principi d'emmagatzematge temporal a zones exteriors no protegides.", correcte: false }
+                ]
+            }
+        ];
+
+        let encerts = 0;
+        let fallades = 0;
+        let totalPreguntes = 0;
+
+        function guardarEstatExamen() {
+            const estatPreguntes = {};
+            document.querySelectorAll('.question-block').forEach((bloc, index) => {
+                const items = bloc.querySelectorAll('.option-item');
+                items.forEach((item, optIndex) => {
+                    if (item.classList.contains('selected-correct')) {
+                        estatPreguntes[index] = { type: 'correct', optIndex };
+                    } else if (item.classList.contains('selected-wrong')) {
+                        estatPreguntes[index] = { type: 'wrong', optIndex };
+                    }
+                });
+            });
+
+            const guardatDetallat = {
+                estatPreguntes,
+                encerts,
+                fallades
+            };
+            localStorage.setItem(`detalls_${EXAM_KEY}`, JSON.stringify(guardatDetallat));
+        }
+
+        function actualitzarComptadors() {
+            document.getElementById('count-total').textContent = totalPreguntes;
+            document.getElementById('count-correct').textContent = encerts;
+            document.getElementById('count-wrong').textContent = fallades;
+
+            const respostesFetes = document.querySelectorAll('.question-block.responuda').length;
+            if (totalPreguntes > 0) {
+                let progressPercent = Math.round((respostesFetes / totalPreguntes) * 100);
+                let finalitzat = (respostesFetes === totalPreguntes);
+                if (progressPercent > 99 && !finalitzat) progressPercent = 99;
+
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                examResults[EXAM_KEY] = {
+                    progress: progressPercent,
+                    fallos: fallades,
+                    aciertos: encerts,
+                    total: totalPreguntes,
+                    passed: finalitzat ? (fallades <= 5) : false
+                };
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                
+                guardarEstatExamen();
+            }
+        }
+
+        function carregarExamen() {
+            encerts = 0;
+            fallades = 0;
+
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            let preguntesBarrejades = barrejarArray(preguntesObligatories);
+            totalPreguntes = preguntesBarrejades.length;
+
+            let htmlTotal = '';
+
+            preguntesBarrejades.forEach((q, indexReal) => {
+                htmlTotal += generarHTMLPregunta(q, indexReal + 1, 'obl');
+            });
+
+            container.innerHTML = htmlTotal;
+            restaurarEstatExamen();
+            actualitzarComptadors();
+            activarListeners();
+        }
+
+        function restaurarEstatExamen() {
+            const guardatDetallat = JSON.parse(localStorage.getItem(`detalls_${EXAM_KEY}`) || 'null');
+            if (!guardatDetallat) return;
+
+            encerts = guardatDetallat.encerts || 0;
+            fallades = guardatDetallat.fallades || 0;
+
+            const blocs = document.querySelectorAll('.question-block');
+            const estat = guardatDetallat.estatPreguntes || {};
+
+            Object.keys(estat).forEach(blocIdx => {
+                const bloc = blocs[blocIdx];
+                if (!bloc) return;
+                const dades = estat[blocIdx];
+                const items = bloc.querySelectorAll('.option-item');
+                const itemDesti = items[dades.optIndex];
+
+                if (itemDesti) {
+                    bloc.classList.add('responuda');
+                    if (dades.type === 'correct') {
+                        itemDesti.classList.add('selected-correct');
+                    } else if (dades.type === 'wrong') {
+                        itemDesti.classList.add('selected-wrong');
+                    }
+                }
+            });
+        }
+
+        function barrejarArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generarHTMLPregunta(q, numeroVisual, tipus) {
+            let opcionsBarrejades = barrejarArray(q.opcions);
+            let lletres = ['a', 'b', 'c', 'd'];
+            let htmlOpcions = '';
+
+            opcionsBarrejades.forEach((op, i) => {
+                let lletraAssignada = lletres[i];
+                let esCorrectaAttr = op.correcte ? 'true' : 'false';
+
+                htmlOpcions += `
+                    <li
+                        class="option-item"
+                        data-correcte="${esCorrectaAttr}"
+                    >
+                        <div class="option-letter-wrapper">
+                            <span class="option-letter">
+                                ${lletraAssignada})
+                            </span>
+                            <svg
+                                class="imperfect-circle"
+                                viewBox="0 0 50 40"
+                                preserveAspectRatio="none"
+                            >
+                                <path d="
+                                    M 6,6
+                                    Q 25,2 44,8
+                                    Q 48,20 42,34
+                                    Q 25,38 5,32
+                                    Q 2,18 6,6 Z
+                                "></path>
+                            </svg>
+                        </div>
+                        <span class="option-text">
+                            ${op.text}
+                        </span>
+                    </li>
+                `;
+            });
+
+            return `
+                <div
+                    class="question-block"
+                    data-tipus="${tipus}"
+                >
+                    <div class="question-text">
+                        ${numeroVisual}. ${q.pregunta}
+                    </div>
+                    <ul class="options-list">
+                        ${htmlOpcions}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function activarListeners() {
+            const blocsPreguntes = document.querySelectorAll('.question-block');
+
+            blocsPreguntes.forEach(bloc => {
+                const items = bloc.querySelectorAll('.option-item');
+
+                items.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const esCorrecta = this.getAttribute('data-correcte') === 'true';
+                        const yaEstabaSeleccionada = this.classList.contains('selected-correct') || this.classList.contains('selected-wrong');
+
+                        if (yaEstabaSeleccionada) {
+                            if (this.classList.contains('selected-correct')) {
+                                encerts--;
+                            } else if (this.classList.contains('selected-wrong')) {
+                                fallades--;
+                            }
+                            this.classList.remove('selected-correct', 'selected-wrong');
+                            
+                            const quedaAlguna = Array.from(items).some(opt => opt.classList.contains('selected-correct') || opt.classList.contains('selected-wrong'));
+                            if (!quedaAlguna) {
+                                bloc.classList.remove('responuda');
+                            }
+                            actualitzarComptadors();
+                            return;
+                        }
+
+                        items.forEach(opt => {
+                            if (opt.classList.contains('selected-correct')) {
+                                encerts--;
+                                opt.classList.remove('selected-correct');
+                            }
+                            if (opt.classList.contains('selected-wrong')) {
+                                fallades--;
+                                opt.classList.remove('selected-wrong');
+                            }
+                        });
+
+                        if (esCorrecta) {
+                            this.classList.add('selected-correct');
+                            encerts++;
+                        } else {
+                            this.classList.add('selected-wrong');
+                            fallades++;
+                        }
+
+                        bloc.classList.add('responuda');
+                        actualitzarComptadors();
+                    });
+                });
+            });
+        }
+
+        function confirmarReinicio() {
+            const confirmar = confirm(
+                "Estàs segur que vols reiniciar aquest examen de test?\n\n" +
+                "Es perdran les teves respostes i les opcions es tornaran a barrejar."
+            );
+
+            if (confirmar) {
+                const examResults = JSON.parse(localStorage.getItem('opoamb_results') || '{}');
+                delete examResults[EXAM_KEY];
+                localStorage.setItem('opoamb_results', JSON.stringify(examResults));
+                localStorage.removeItem(`detalls_${EXAM_KEY}`);
+
+                carregarExamen();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        window.onload = carregarExamen;
+    </script>
+</body>
+
+</html>

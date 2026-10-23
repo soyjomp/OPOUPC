@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apunts - Tema 7 Opo Auxiliar de Serveis UPC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #111111;
+        }
+        h1, h2, h3, h4, .font-arial-bold {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+        /* Quadre d'alerta per a preguntes típiques de test */
+        .highlight-box-exam {
+            background-color: #fffbe3;
+            border: 1px solid #fde68a;
+            border-left: 4px solid #d97706;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+        /* Quadre per a aspectes clau de la UPC (blau/indigo) */
+        .highlight-box-upc {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+        /* Quadre per al rol específic d'Auxiliar de Serveis (verd suau) */
+        .highlight-box-serveis {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-left: 4px solid #16a34a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #111111;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-900 flex flex-col justify-between">
+
+    <!-- HEADER / BARRA SUPERIOR -->
+    <header class="w-full border-b border-blue-100 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center">
+                        <img src="../img/logohorizontal.png" alt="Logo UPC" class="h-10 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="text-xs text-blue-700 font-bold hidden text-center px-1">img/logohorizontal.png</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-black">
+                        Oposicions Auxiliar de Serveis <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-600">UPC</span>
+                    </h1>
+                </div>
+
+                <a href="index.html" class="sm:hidden inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-300 hover:bg-blue-700 hover:text-white hover:border-blue-700 rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span>Inici</span>
+                </a>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                <div class="w-full sm:w-80">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
+                        <input type="text" id="searchInput" placeholder="Cercar al Tema 7..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all">
+                    </div>
+                </div>
+
+                <a href="../index.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-gray-700 bg-gray-50 border border-gray-300 hover:bg-blue-700 hover:text-white hover:border-blue-700 rounded-lg transition-colors shrink-0 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span>Tornar a l'Inici</span>
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- CONTINGUT PRINCIPAL -->
+    <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-grow space-y-8">
+        
+        <div class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <span>Bloc 3: Prevenció de Riscos, Emergències i Sostenibilitat</span>
+            <span>/</span>
+            <span class="text-blue-700">Tema 7</span>
+        </div>
+
+        <div class="border-b-2 border-blue-600 pb-4">
+            <h2 class="text-2xl sm:text-3xl font-bold text-black tracking-tight">
+                TEMA 7: Sostenibilitat i gestió mediambiental (reciclatge, recollida selectiva i criteris mediambientals a la UPC)
+            </h2>
+        </div>
+
+        <!-- REQUADRE DE PREGUNTES DE TEST TÍPIQUES DE L'EXAMEN -->
+        <div class="highlight-box-exam text-xs space-y-2">
+            <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span>⚠️ PREGUNTES TÍPIQUES DE TEST (SOSTENIBILITAT I RESIDUS A LA UPC)</span>
+            </div>
+            <ul class="list-disc pl-5 space-y-1.5 text-gray-800">
+                <li><strong>Quin és el document marc de planificació ambiental a la Universitat?</strong> El <strong>Pla d'Acció per a la Sostenibilitat / Pla UPC Sostenible</strong>.</li>
+                <li><strong>On s'han de dipositar els cartutxos de tòner i tinta usats a la UPC?</strong> Als punts de recollida específica de <strong>residus d'aparells elèctrics i electrònics (RAEE) / contenidors especials de tòner</strong> de la Consergeria o UTG, mai al contenidor de rebuig.</li>
+                <li><strong>Quin és l'ordre de prioritat en la jerarquia de gestió de residus?</strong> 1r Prevenció/Reducció ➔ 2n Reutilització ➔ 3r Reciclatge ➔ 4t Valorització energètica ➔ 5è Disposició final (abocador).</li>
+                <li><strong>Com es gestionen els residus perillosos de laboratoris i tallers a la UPC?</strong> Cal segregació en origen, etiquetatge normalitzat i recollida a càrrec d'un <strong>gestor autoritzat de residus perillosos</strong> coordinat pel Servei de Prevenció / Medi Ambient.</li>
+                <li><strong>En quin contenidor va el paper confidencial o amb dades personals abans de reciclar?</strong> En contenidors tancats amb clau destinats a <strong>destrucció segura (LOPDGDD)</strong>, no al contenidor blau estàndard directament.</li>
+            </ul>
+        </div>
+
+        <!-- CONTENIDOR EN COLUMNES RESPONSIVE (FITXES) -->
+        <article class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            
+            <!-- TARJETA 1: MARCO INSTITUCIONAL DE SOSTENIBILITAT A LA UPC -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7a2 2 0 00-2-2h-1.5a2.5 2.5 0 01-2.5-2.5V3.055M11 20.945V19a2 2 0 00-2-2h-1a2 2 0 01-2-2v-1a2 2 0 00-2-2H3.055"></path></svg>
+                    <h3>1. Polítiques Ambientals i Estratègia UPC Sostenible</h3>
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    La UPC manté un ferm compromís institucional amb la neutralitat climàtica, l'eficiència energètica i els Objectius de Desenvolupament Sostenible (ODS 2030):
+                </p>
+                
+                <div class="bg-blue-50/50 p-3 rounded-lg border border-blue-100 space-y-2 text-xs text-gray-700">
+                    <p><strong>🌱 Pla de Transició Ecològica / Emergència Climàtica:</strong> Mesures per reduir l'ampolla de carboni de la universitat, estalviar energia i fomentar la mobilitat sostenible als campus.</p>
+                    <p><strong>💡 Eficiència Energètica en Edificis:</strong> Apagada automatitzada de climatització i enllumenat, ús de tecnologia LED i climatització responsable (mantenir les temperatures reglamentàries d'estiu i hivern).</p>
+                    <p><strong>💧 Ús Eficient de l'Aigua:</strong> Dispositius d'estalvi a lavabos i protocols de sequera als campus universitaris.</p>
+                </div>
+            </section>
+
+            <!-- TARJETA 2: TIPUS DE RESIDUS I FRACCIONS A LES INSTAL·LACIONS -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <h3>2. Classificació i Segregació de Residus</h3>
+                </div>
+                <p class="text-xs text-gray-700 leading-relaxed">
+                    A les aules, oficines, UTG i espais comuns dels campus s'aplica el model de recollida selectiva de 5 fraccions principals i canals especials:
+                </p>
+
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 space-y-2 text-xs text-gray-700">
+                    <p><strong>🟦 Blau (Paper i Cartró):</strong> Caixes de cartró, folis, sobres i publicacions sens dades confidencials.</p>
+                    <p><strong>🟨 Groc (Envasos):</strong> Ampolles de plàstic, llaunes, brics i embolcalls plàstics.</p>
+                    <p><strong>🟩 Verd (Vidre):</strong> Ampolles i envasos de vidre (sense taps).</p>
+                    <p><strong>🟫 Marró (Orgànic):</strong> Restes de menjar i matèria orgànica biodegradable.</p>
+                    <p><strong>⬛ Gris (Rebuig):</strong> Resta de residus no reciclables.</p>
+                </div>
+            </section>
+
+            <!-- TARJETA 3: TAULA GESTIÓ DE RESIDUS ESPECIALS I MANTENIMENT DE CAMPUS -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors md:col-span-2">
+                <div class="flex items-center gap-2 text-blue-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <h3>3. Matriu de Gestió de Residus Especiali i RAEE a la UPC</h3>
+                </div>
+
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    <table class="w-full border-collapse text-xs bg-white">
+                        <thead>
+                            <tr class="bg-blue-900 text-white font-bold">
+                                <th class="p-3 text-left">Tipus de Residul / Material</th>
+                                <th class="p-3 text-left">Origen Principal</th>
+                                <th class="p-3 text-left">Procediment de Recollida / Dipòsit</th>
+                                <th class="p-3 text-left">Destí i Tractament</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-gray-700">
+                            <tr>
+                                <td class="p-3 font-bold text-blue-900">RAEE (Ordinadors, pantalles, petits electrodomèstics)</td>
+                                <td class="p-3">Aules informàtiques, despatxos, laboratoris.</td>
+                                <td class="p-3">Emmagatzematge a la zona d'equips obsolets / Punt Verd de la UTG.</td>
+                                <td class="p-3">Gestor autoritzat de residus elèctrics.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-amber-900">Tòners i Cartutxos de Tinta</td>
+                                <td class="p-3">Impressores de departament i fotocopiadores.</td>
+                                <td class="p-3">Dipòsit al contenidor específic a la Consergeria o UTG.</td>
+                                <td class="p-3">Retorn al proveïdor o reciclatge especialitzat.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-red-900">Documentació Confidencial (Paper)</td>
+                                <td class="p-3">Expedients acadèmics, dades personals de PAS/PDI.</td>
+                                <td class="p-3">Dipòsit en busties/contenidors tancats amb clau.</td>
+                                <td class="p-3">Destrucció certificada segons LOPDGDD i reciclatge.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-green-900">Piles i Bateries Usades</td>
+                                <td class="p-3">Comandaments, micròfons, equips portàtils.</td>
+                                <td class="p-3">Piles usades als contenidors de tipus "Pilaguru" / Consergeria.</td>
+                                <td class="p-3">Tractament de residus perillosos.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TARJETA 4: APLICACIÓ PRÀCTICA PER A L'AUXILIAR DE SERVEIS -->
+            <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-4 hover:border-blue-500 transition-colors md:col-span-2">
+                <div class="flex items-center gap-2 text-green-700 font-bold text-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <h3>4. Rol de l'Auxiliar de Serveis en la Gestió Mediambiental</h3>
+                </div>
+                
+                <div class="highlight-box-serveis text-xs space-y-2">
+                    <p class="font-bold">🍃 TASQUES DIÀRIES DE REVISIÓ I SOSTENIBILITAT ALS CAMPUS (67 PLACES):</p>
+                    <ul class="list-disc pl-4 space-y-1.5 text-gray-800">
+                        <li><strong>Supervisió d'enllumenat i climatització:</strong> Comprovar al tancament de l'edifici que els llums, projectors, sistemes de climatització i equips d'aules quedin apagats.</li>
+                        <li><strong>Control dels punts de recollida selectiva:</strong> Verificar que les illes de reciclatge dels pasadissos i aules estiguin degudament senyalitzades i en bon estat.</li>
+                        <li><strong>Gestió de residus de la Consergeria:</strong> Dipositar les piles usades dels micròfons i comandaments, així com els tòners exhaurits, als contenidors especials corresponents.</li>
+                        <li><strong>Detecció i avís de feines d'aigua/energia:</strong> Comunicar immediatament al servei de manteniment qualsevol fuga d'aigua a cisternes/aixetes o mal funcionament de la climatització.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </article>
+
+    </main>
+
+    <!-- FOOTER / PEU DE PÀGINA -->
+    <footer class="w-full border-t border-gray-200 bg-white py-4 text-center text-xs text-gray-500">
+        <p>© 2026 OpoUPC | &copy; Creat per JOMP | Preparació Oposicions Auxiliar de Serveis UPC</p>
+    </footer>
+
+<script>
+    // Script funcional per al cercador del Tema 7
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const sections = document.querySelectorAll('main article section, .highlight-box-exam');
+
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (searchTerm === '' || text.includes(searchTerm)) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>
